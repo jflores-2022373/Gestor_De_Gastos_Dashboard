@@ -1,14 +1,26 @@
-/* Estilos globales para toda la aplicación y el fondo corporativo */
+
+:root {
+  --color-escudo-azul: #1d335a;    
+  --color-escudo-dorado: #cca43b;  
+  --color-escudo-naranja: #f15a24; 
+  
+  --bg-dark: #0f141f;            
+  --bg-card: #182232;        
+  --text-main: #f8fafc;          
+  --text-muted: #94a3b8;        
+}
+
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  background: #090d16;
+  background: var(--bg-dark);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
 }
 
-/* Contenedor principal del login */
+/* Contenedor general del Login */
 .auth-wrapper {
   display: flex;
   justify-content: center;
@@ -18,18 +30,20 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
+  background-color: var(--bg-dark);
   box-sizing: border-box;
 }
 
-/* Tarjeta central profesional */
+/* Tarjeta del login con un toque fino dorado */
 .auth-card {
   width: 100%;
   max-width: 420px;
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
+  border: 1px solid rgba(204, 164, 59, 0.3);
 }
 
 .brand-header {
@@ -37,31 +51,33 @@ html, body {
   margin-bottom: 30px;
 }
 
+/* Logo con el Azul Marino del escudo */
 .brand-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: #2563eb;
-  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  background: var(--color-escudo-azul);
+  color: var(--color-escudo-dorado);
   font-weight: 700;
   font-size: 18px;
   border-radius: 12px;
   margin-bottom: 14px;
+  border: 1px solid rgba(204, 164, 59, 0.4);
 }
 
 .brand-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .brand-header p {
   margin: 6px 0 0 0;
   font-size: 14px;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .input-field {
@@ -73,53 +89,55 @@ html, body {
   margin-bottom: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #334155;
+  color: var(--text-muted);
 }
 
 .input-field input {
   width: 100%;
   padding: 12px 14px;
   font-size: 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #334155;
   border-radius: 8px;
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #0b1019;
+  color: var(--text-main);
   box-sizing: border-box;
   transition: all 0.2s;
 }
 
+/* Enfoque con el Dorado del escudo */
 .input-field input:focus {
   outline: none;
-  border-color: #2563eb;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: var(--color-escudo-dorado);
+  box-shadow: 0 0 0 3px rgba(204, 164, 59, 0.15);
 }
 
-.btn-login {
+/* Botón principal con el Naranja exacto de la flama */
+.btn-login, button[type="submit"], .btn-primary {
   width: 100%;
   padding: 12px;
   font-size: 15px;
   font-weight: 600;
   color: #ffffff;
-  background-color: #2563eb;
+  background-color: var(--color-escudo-naranja);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 10px;
+  box-shadow: 0 4px 12px rgba(241, 90, 36, 0.3);
 }
 
-.btn-login:hover {
-  background-color: #1d4ed8;
+.btn-login:hover, button[type="submit"]:hover {
+  background-color: #d44a1b;
 }
 
 .error-msg {
   margin-top: 18px;
   padding: 12px;
   font-size: 13px;
-  color: #b91c1c;
-  background-color: #fef2f2;
-  border: 1px solid #fecaca;
+  color: #fca5a5;
+  background-color: rgba(185, 28, 28, 0.2);
+  border: 1px solid rgba(248, 113, 113, 0.4);
   border-radius: 8px;
   text-align: center;
   font-weight: 500;

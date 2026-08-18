@@ -28,15 +28,15 @@
     <div class="metrics-grid">
       <div class="metric-card">
         <span class="card-title">Balance Total</span>
-        <h2 class="card-value">Q{{ balance | number:'1.2-2' }}</h2>
+        <h2 class="card-value">${{ balance | number:'1.2-2' }}</h2>
       </div>
       <div class="metric-card">
         <span class="card-title">Ingresos Totales</span>
-        <h2 class="card-value text-green">Q{{ totalIncome | number:'1.2-2' }}</h2>
+        <h2 class="card-value text-green">${{ totalIncome | number:'1.2-2' }}</h2>
       </div>
       <div class="metric-card">
         <span class="card-title">Gastos Totales</span>
-        <h2 class="card-value text-red">Q{{ totalExpense | number:'1.2-2' }}</h2>
+        <h2 class="card-value text-red">${{ totalExpense | number:'1.2-2' }}</h2>
       </div>
     </div>
 
@@ -56,8 +56,8 @@
           </div>
 
           <div class="input-group">
-            <label>Monto</label>
-            <input type="number" [(ngModel)]="newTransaction.amount" name="amount" placeholder="0" required min="0.01">
+            <label>Monto ($)</label>
+            <input type="number" [(ngModel)]="newTransaction.amount" name="amount" placeholder="0" required min="0.01" step="0.01">
           </div>
 
           <div class="form-row">
@@ -99,7 +99,7 @@
             </div>
             <div class="transaction-details">
               <span class="t-amount" [ngClass]="t.type === 'income' ? 'text-green' : 'text-red'">
-                {{ t.type === 'income' ? '+' : '-' }}Q{{ t.amount | number:'1.2-2' }}
+                {{ t.type === 'income' ? '+' : '-' }}${{ t.amount | number:'1.2-2' }}
               </span>
               <button class="btn-delete" (click)="deleteTransaction(t._id || t.id)" title="Eliminar">🗑️</button>
             </div>

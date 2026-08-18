@@ -1,83 +1,86 @@
-/* Fondo general de la pantalla en negro oscuro elegante */
-body, html {
-  height: 100%;
-  margin: 0;
-  background-color: #0d0d0d;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Contenedor principal de la tarjeta de login */
-.spendwise-login-wrapper {
-  max-width: 400px;
-  margin: 80px auto;
-  padding: 40px;
-  background: #161616;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
-  border: 1px solid #2a2a2a;
-  color: #f1f1f1;
-  text-align: center;
-}
-
-/* Título con un toque dorado elegante */
-.spendwise-login-wrapper h2 {
-  font-size: 28px;
-  margin-bottom: 25px;
-  color: #d4af37; /* Dorado */
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-/* Etiquetas de texto */
-.spendwise-login-wrapper label {
+:host {
   display: block;
-  text-align: left;
+  min-height: 100vh;
+  background-color: #0f141f; /* Fondo oscuro elegante */
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Contenedor y estructura original */
+.login-container, form {
+  max-width: 400px;
+  margin: 0 auto;
+  color: #f8fafc;
+}
+
+/* Título SpendWise */
+h2, .brand-title {
+  text-align: center;
+  color: #f8fafc;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* Grupos de inputs */
+.input-group, div {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
   margin-bottom: 8px;
   font-size: 14px;
-  color: #b3b3b3;
+  font-weight: 500;
+  color: #94a3b8;
 }
 
-/* Campos de entrada (Inputs) */
-.spendwise-login-wrapper input {
+input {
   width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 20px;
-  background-color: #222222;
-  border: 1px solid #333333;
-  border-radius: 6px;
-  color: #ffffff;
-  font-size: 15px;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background-color: #182232; /* Fondo de tarjeta sutil para los inputs */
+  color: #f8fafc;
   box-sizing: border-box;
-  transition: all 0.3s ease;
+  transition: all 0.2s;
 }
 
-/* Efecto al hacer clic en los inputs (brillo dorado/rojo) */
-.spendwise-login-wrapper input:focus {
+input:focus {
   outline: none;
-  border-color: #d4af37;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  border-color: #cca43b; /* Dorado del escudo al enfocar */
+  box-shadow: 0 0 0 3px rgba(204, 164, 59, 0.2);
 }
 
-/* Botón de Iniciar Sesión en rojo llamativo con texto blanco */
-.spendwise-login-wrapper button {
+/* Botón de Iniciar Sesión con el Naranja de la flama */
+button, .btn-login {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #e50914, #b20710); /* Rojo elegante */
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #f15a24;
   border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.1s ease;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+  box-shadow: 0 4px 12px rgba(241, 90, 36, 0.3);
 }
 
-/* Efecto hover al pasar el mouse por el botón */
-.spendwise-login-wrapper button:hover {
-  background: linear-gradient(135deg, #f40612, #c90812);
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4);
+button:hover, .btn-login:hover {
+  background-color: #d44a1b;
 }
 
-.spendwise-login-wrapper button:active {
-  transform: scale(0.98);
+/* Mensajes de error */
+.error-msg, .alert-error {
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 13px;
+  color: #fca5a5;
+  background-color: rgba(185, 28, 28, 0.2);
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 8px;
+  text-align: center;
 }
