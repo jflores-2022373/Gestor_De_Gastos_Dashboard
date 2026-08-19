@@ -1,37 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink], // <-- RouterLink incluido aquí
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  email = '';
-  password = '';
-  errorMessage = '';
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
+  errorMessage: string = '';
+  sessionExpiredMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['expired'] === 'true') {
+        this.sessionExpiredMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+      }
+    });
+  }
 
   onLogin() {
-    this.authService.login({ email: this.email, password: this.password }).subscribe({
-      next: (response: any) => {
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
-          if (response.role) {
-            localStorage.setItem('role', response.role);
-          }
-          this.router.navigate(['/dashboard']);
-        }
+    if (this.loginForm.invalid) return;
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
       },
-      error: (err) => {
-        console.error('Error en el login:', err);
-        this.errorMessage = 'Credenciales inválidas o error en el servidor.';
+      error: () => {
+        this.errorMessage = 'Correo o contraseña incorrectos.';
       }
     });
   }
