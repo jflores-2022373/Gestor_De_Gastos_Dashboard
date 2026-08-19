@@ -1,19 +1,16 @@
-import { Pool } from 'pg';
+import 'dotenv/config'; // <-- ESTO DEBE IR PRIMERO QUE TODO
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
 
-// Configuración de PostgreSQL (puedes cambiar los datos según tu entorno)
-export const pool = new Pool({
-  user: process.env.DB_USER || 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'spendwise',
-  password: process.env.DB_PASSWORD || 'postgres',
-  port: Number(process.env.DB_PORT) || 5432,
+// Línea de prueba temporal para ver si lee la URL en la terminal:
+console.log('URL de base de datos cargada:', process.env.DATABASE_URL ? '¡SÍ!' : '¡NO, ESTÁ VACÍA!');
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
 });
 
-export const connectDB = async () => {
-  try {
-    await pool.query('SELECT NOW()');
-    console.log('Base de datos PostgreSQL conectada con éxito');
-  } catch (error) {
-    console.log('Aviso: PostgreSQL no está activo, operando en modo simulación de memoria.');
-  }
-};
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+
+export default prisma;

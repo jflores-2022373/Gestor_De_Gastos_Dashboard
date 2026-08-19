@@ -1,10 +1,8 @@
-import 'dotenv/config';
 import { defineConfig } from '@prisma/config';
 
 export default defineConfig({
-  earlyAccess: true,
-  schema: 'prisma/schema.prisma',
+  schema: './prisma/schema.prisma',
   datasource: {
-    url: process.env.DATABASE_URL,
+    url: 'postgresql://postgres:admin@localhost:5432/gestor_de_gastos?schema=public',
   },
 });

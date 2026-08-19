@@ -1,24 +1,67 @@
 import { Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-
-export const login = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-
-  if (email === 'admin@jflores.com' && password === '123') {
-    const token = jwt.sign({ id: '1', email, role: 'admin' }, process.env.JWT_SECRET || 'secreto', { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login exitoso', token, role: 'admin' });
-    return;
-  }
-
-  if (email === 'user@jflores.com' && password === '123') {
-    const token = jwt.sign({ id: '2', email, role: 'user' }, process.env.JWT_SECRET || 'secreto', { expiresIn: '1h' });
-    res.status(200).json({ message: 'Login exitoso', token, role: 'user' });
-    return;
-  }
-
-  res.status(401).json({ message: 'Credenciales inválidas' });
-};
+import prisma from '../config/database';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-  res.status(201).json({ message: 'Registro simulado exitoso' });
+  try {
+    const { email, password, role } = req.body;
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      res.status(400).json({ message: 'El correo ya está registrado' });
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword,
+        role: role || 'user'
+      }
+    });
+
+    res.status(201).json({ message: 'Usuario registrado exitosamente', userId: newUser.id });
+  } catch (error) {
+    console.error('Error detallado en register:', error);
+    res.status(500).json({ message: 'Error en el servidor al registrar', error });
+  }
+};
+
+export const login = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    // Buscamos el usuario de forma estricta en la base de datos
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      res.status(401).json({ message: 'Credenciales inválidas' });
+      return;
+    }
+
+    // Comparamos la contraseña ingresada con la cifrada en la base de datos
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      res.status(401).json({ message: 'Credenciales inválidas' });
+      return;
+    }
+
+    // Generamos el token de autenticación (expira en 20 minutos)
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'secreto',
+      { expiresIn: '20m' }
+    );
+
+    res.status(200).json({
+      message: 'Login exitoso',
+      token,
+      role: user.role
+    });
+  } catch (error) {
+    console.error('Error detallado en login:', error);
+    res.status(500).json({ message: 'Error en el servidor al iniciar sesión', error });
+  }
 };
