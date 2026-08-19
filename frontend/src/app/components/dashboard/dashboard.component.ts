@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TransactionService, Transaction } from '../../services/transaction.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { TransactionService, Transaction } from '../../services/transaction.serv
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   transactions: Transaction[] = [];
 
   newTransaction: Transaction = {
@@ -28,13 +29,27 @@ export class DashboardComponent implements OnInit {
   totalExpense: number = 0;
   balance: number = 0;
 
+  private expirationTimer: any;
+
   constructor(
     private transactionService: TransactionService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadTransactions();
+
+    this.expirationTimer = setTimeout(() => {
+      window.alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
+      this.authService.logout(true); 
+    }, 4 * 60 * 60 * 1000);  //tiempo
+  }
+
+  ngOnDestroy(): void {
+    if (this.expirationTimer) {
+      clearTimeout(this.expirationTimer);
+    }
   }
 
   loadTransactions() {
@@ -100,8 +115,6 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    this.router.navigate(['/login']);
+    this.authService.logout(false);
   }
 }
