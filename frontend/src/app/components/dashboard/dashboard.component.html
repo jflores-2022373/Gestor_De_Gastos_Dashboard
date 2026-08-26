@@ -1,80 +1,32 @@
-<div class="dashboard-wrapper">
-  <div class="dashboard-card-layout">
-    
-    <!-- Barra lateral integrada estilo tarjeta -->
-    <aside class="dashboard-sidebar">
-      <div class="brand-box">
-        <div class="logo-mini">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-        </div>
-        <h2>Spend<span class="text-gold">Wise</span></h2>
+<div class="dashboard-container">
+  <!-- MENÚ LATERAL -->
+  <aside class="sidebar">
+    <div class="sidebar-menu">
+      <h2 class="menu-item active">Dashboard</h2>
+      <h2 class="menu-item">Transacciones</h2>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main-content">
+    <div class="kpi-cards">
+      <div class="kpi-card">
+        <span class="kpi-title green">INGRESOS TOTALES</span>
+        <span class="kpi-value">Q{{ totalIncome | number:'1.2-2' }}</span>
       </div>
-
-      <nav class="side-nav">
-        <a href="#" class="nav-item active">Resumen</a>
-        <a href="#" class="nav-item">Movimientos</a>
-        <a href="#" class="nav-item">Configuración</a>
-      </nav>
-
-      <div class="sidebar-footer">
-        <button (click)="logout()" class="btn-logout-clean">Cerrar Sesión</button>
-      </div>
-    </aside>
-
-    <!-- Panel Principal de Contenido -->
-    <main class="dashboard-main-content">
       
-      <div class="content-header">
-        <h1>Panel de Control</h1>
-        <p>Workspace Activo • Resumen de actividad financiera</p>
+      <div class="kpi-card">
+        <span class="kpi-title red">GASTOS TOTALES</span>
+        <span class="kpi-value">Q{{ totalExpense | number:'1.2-2' }}</span>
       </div>
-
-      <!-- Tarjetas de Balance -->
-      <div class="stats-cards-grid">
-        <div class="stat-box balance">
-          <span>Balance Total</span>
-          <h3>$0.00</h3>
-        </div>
-        <div class="stat-box income">
-          <span>Ingresos Totales</span>
-          <h3 class="text-success">$0.00</h3>
-        </div>
-        <div class="stat-box expense">
-          <span>Gastos Totales</span>
-          <h3 class="text-danger">$0.00</h3>
-        </div>
+      
+      <div class="kpi-card">
+        <span class="kpi-title gold">BALANCE ACTUAL</span>
+        <span class="kpi-value">Q{{ balance | number:'1.2-2' }}</span>
       </div>
-
-      <!-- Sección de Registro de Movimientos -->
-      <div class="movement-section">
-        <h3>Registrar Nuevo Movimiento</h3>
-        
-        <form class="inline-movement-form">
-          <div class="input-group-dash">
-            <label>Título</label>
-            <input type="text" placeholder="Ej. Alquiler o Nómina" />
-          </div>
-
-          <div class="input-group-dash">
-            <label>Monto ($)</label>
-            <input type="number" placeholder="0.00" />
-          </div>
-
-          <div class="input-group-dash">
-            <label>Tipo</label>
-            <select>
-              <option value="gasto">Gasto</option>
-              <option value="ingreso">Ingreso</option>
-            </select>
-          </div>
-
-          <button type="button" class="btn-add-action">Agregar</button>
-        </form>
-      </div>
-
-    </main>
-
-  </div>
+    </div>
+  </main>
 </div>
