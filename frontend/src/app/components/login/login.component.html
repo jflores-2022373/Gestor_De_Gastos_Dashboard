@@ -1,73 +1,41 @@
-<div class="login-wrapper">
-  <div class="login-split-card">
-    
-    <!-- Lado Izquierdo: Formulario de Login -->
-    <div class="form-section">
-      
-      <!-- Mensaje si la sesión expiró -->
-      <div *ngIf="sessionExpiredMessage" class="alert-session-expired">
-        {{ sessionExpiredMessage }}
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-form-section">
+      <div class="brand-header">
+        <span class="brand-name">Spend<span>Wise</span></span>
       </div>
 
-      <div class="brand-top">
-        <div class="logo-box">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-          </svg>
-        </div>
-        <span class="brand-name">Spend<span class="text-gold">Wise</span></span>
+      <div class="form-avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
       </div>
 
-      <div class="user-avatar-placeholder">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
+      <!-- Mensaje de error si las credenciales fallan -->
+      <div *ngIf="errorMessage" style="color: #e74c3c; font-size: 0.85rem; text-align: center; margin-bottom: 10px;">
+        {{ errorMessage }}
       </div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-        
-        <div class="input-wrap">
-          <span class="input-icon"></span>
-          <input 
-            type="email" 
-            formControlName="email" 
-            placeholder="Correo electrónico" 
-          />
+      <form class="form-group" (ngSubmit)="onLogin()">
+        <div class="input-wrapper">
+          <input type="email" [(ngModel)]="credentials.email" name="email" placeholder="Correo electrónico" required />
+        </div>
+        <div class="input-wrapper">
+          <input type="password" [(ngModel)]="credentials.password" name="password" placeholder="Contraseña" required />
         </div>
 
-        <div class="input-wrap">
-          <span class="input-icon"></span>
-          <input 
-            type="password" 
-            formControlName="password" 
-            placeholder="Contraseña" 
-          />
-        </div>
-
-        <div *ngIf="errorMessage" class="error-text">
-          {{ errorMessage }}
-        </div>
-
-        <button type="submit" class="btn-submit" [disabled]="loginForm.invalid">
-          LOGIN
-        </button>
-
+        <button type="submit" class="btn-login">INGRESAR</button>
       </form>
 
-      <div class="form-bottom-links">
-        <a routerLink="/register">¿No tienes cuenta? <strong>Regístrate</strong></a>
+      <div class="login-footer">
+        <span>¿No tienes cuenta?</span> <a routerLink="/register">Regístrate</a>
       </div>
     </div>
 
-    <!-- Lado Derecho: Panel Visual Elegante -->
-    <div class="visual-section">
-      <div class="visual-content">
+    <div class="login-info-section">
+      <div class="info-content">
         <h2>Bienvenido.</h2>
         <p>Administra, controla y optimiza tus finanzas personales y empresariales de manera inteligente.</p>
-        <div class="accent-line"></div>
+        <div class="info-line"></div>
       </div>
     </div>
-
   </div>
 </div>
