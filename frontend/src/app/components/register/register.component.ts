@@ -1,47 +1,38 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
+  credentials = {
+    email: '',
+    password: ''
+  };
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  onRegister(): void {
-    if (this.registerForm.invalid) {
-      this.errorMessage = 'Por favor, llena los campos correctamente.';
-      return;
-    }
-
-    this.authService.register(this.registerForm.value).subscribe({
+  onRegister() {
+    this.authService.register(this.credentials).subscribe({
       next: () => {
         this.successMessage = '¡Registro exitoso! Redirigiendo al login...';
+        this.errorMessage = '';
         setTimeout(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login']); // Te devuelve al login tras registrarte
         }, 1500);
       },
-      error: (err: any) => {
-        this.errorMessage = err.error?.message || 'Error al registrar el usuario.';
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Error al registrar el usuario';
+        this.successMessage = '';
       }
     });
   }

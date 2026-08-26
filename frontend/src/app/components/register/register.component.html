@@ -1,50 +1,40 @@
-<div class="register-page">
+<div class="register-container">
   <div class="register-card">
-    
-    <div class="register-header">
-      <div class="badge-accent">Nuevo Usuario</div>
-      <h2>Crea tu cuenta en <span class="text-gold">SpendWise</span></h2>
-      <p>Comienza a administrar tus gastos con precisión profesional.</p>
-    </div>
-
-    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-      
-      <div class="form-field">
-        <label for="email">Correo electrónico</label>
-        <input 
-          id="email" 
-          type="email" 
-          formControlName="email" 
-          placeholder="nombre@ejemplo.com" 
-        />
+    <div class="register-form-section">
+      <div class="brand-header">
+        <span class="brand-name">Spend<span>Wise</span></span>
       </div>
 
-      <div class="form-field">
-        <label for="password">Contraseña </label>
-        <input 
-          id="password" 
-          type="password" 
-          formControlName="password" 
-          placeholder="••••••••" 
-        />
+      <div class="register-titles">
+        <h2>Crear Cuenta</h2>
+        <p>Comienza a administrar tus finanzas de manera inteligente.</p>
       </div>
 
-      <div *ngIf="errorMessage" class="alert-error">
+      <!-- Mensajes de feedback -->
+      <div *ngIf="errorMessage" style="color: #e74c3c; font-size: 0.85rem; margin-bottom: 10px;">
         {{ errorMessage }}
       </div>
-      <div *ngIf="successMessage" class="alert-success">
+      <div *ngIf="successMessage" style="color: #2ecc71; font-size: 0.85rem; margin-bottom: 10px;">
         {{ successMessage }}
       </div>
 
-      <button type="submit" class="btn-primary-red" [disabled]="registerForm.invalid">
-        Completar Registro
-      </button>
+      <form class="form-group" (ngSubmit)="onRegister()">
+        <div class="input-wrapper">
+          <label>Correo electrónico</label>
+          <input type="email" [(ngModel)]="credentials.email" name="email" placeholder="nombre@ejemplo.com" required />
+        </div>
+        
+        <div class="input-wrapper">
+          <label>Contraseña</label>
+          <input type="password" [(ngModel)]="credentials.password" name="password" placeholder="••••••••" required />
+        </div>
 
-    </form>
+        <button type="submit" class="btn-register">REGISTRARSE</button>
+      </form>
 
-    <div class="card-footer">
-      <p>¿Ya tienes una cuenta? <a routerLink="/login" class="link-gold">Inicia sesión</a></p>
+      <div class="register-footer">
+        <span>¿Ya tienes una cuenta?</span> <a routerLink="/login">Inicia sesión</a>
+      </div>
     </div>
-
   </div>
 </div>

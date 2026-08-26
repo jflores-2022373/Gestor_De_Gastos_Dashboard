@@ -1,148 +1,135 @@
-.register-page {
+.register-container {
   display: flex;
+  height: 100vh;
+  width: 100vw;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  /* Fondo sutil con el negro e iluminación sutil celeste/oscura */
-  background: linear-gradient(145deg, #121212 0%, #1e1e24 100%);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  padding: 1rem;
+  background-color: #0e0e0e;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .register-card {
-  background: #ffffff;
+  display: flex;
+  width: 460px;
+  background-color: #161616;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.register-form-section {
   width: 100%;
-  max-width: 440px;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  /* Distinto al login: Borde lateral izquierdo celeste y superior dorado */
-  border-left: 5px solid #00b4d8; 
-  border-top: 2px solid #c5a059;
+  background-color: #181818;
+  padding: 45px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.register-header {
-  margin-bottom: 2rem;
+.brand-header {
+  margin-bottom: 20px;
 }
 
-.badge-accent {
-  display: inline-block;
-  background-color: rgba(0, 180, 216, 0.1);
-  color: #00b4d8; /* Celeste */
-  font-size: 0.75rem;
+.brand-name {
+  font-size: 1.2rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.25rem 0.625rem;
-  border-radius: 4px;
-  margin-bottom: 0.75rem;
-}
-
-.register-header h2 {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #121212;
-  margin: 0 0 0.35rem 0;
-}
-
-.text-gold {
-  color: #c5a059; /* Dorado */
-}
-
-.register-header p {
-  color: #6c757d;
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-.form-field {
-  margin-bottom: 1.25rem;
-}
-
-.form-field label {
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: #333333;
-  margin-bottom: 0.5rem;
-}
-
-.form-field input {
-  width: 100%;
-  padding: 0.75rem 0.875rem;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  background-color: #fcfcfc;
-  box-sizing: border-box;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-field input:focus {
-  outline: none;
-  border-color: #00b4d8; /* Celeste al enfocar */
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
-}
-
-.btn-primary-red {
-  width: 100%;
-  padding: 0.875rem;
-  background-color: #e63946; /* Rojo profesional */
   color: #ffffff;
+}
+
+.brand-name span {
+  color: #d4af37;
+}
+
+.register-titles {
+  margin-bottom: 25px;
+}
+
+.register-titles h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.register-titles p {
+  color: #888888;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-wrapper label {
+  color: #cccccc;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.input-wrapper input:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.15);
+}
+
+.input-wrapper input::placeholder {
+  color: #555555;
+}
+
+.btn-register {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+  color: #0e0e0e;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-weight: 700;
   font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
 }
 
-.btn-primary-red:hover:not(:disabled) {
-  background-color: #d90429;
+.btn-register:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
-.btn-primary-red:disabled {
-  background-color: #e5e5e5;
-  color: #a3a3a3;
-  cursor: not-allowed;
-}
-
-.alert-error {
-  color: #e63946;
-  font-size: 0.8125rem;
-  margin-bottom: 1rem;
+.register-footer {
   text-align: center;
+  font-size: 0.85rem;
+  color: #888888;
+  margin-top: 25px;
 }
 
-.alert-success {
-  color: #2b9348;
-  font-size: 0.8125rem;
-  margin-bottom: 1rem;
-  text-align: center;
-  font-weight: 600;
-}
-
-.card-footer {
-  text-align: center;
-  margin-top: 1.75rem;
-  border-top: 1px solid #f1f3f5;
-  padding-top: 1.25rem;
-}
-
-.card-footer p {
-  font-size: 0.875rem;
-  color: #6c757d;
-  margin: 0;
-}
-
-.link-gold {
-  color: #c5a059; /* Dorado */
+.register-footer a {
+  color: #d4af37;
   text-decoration: none;
   font-weight: 600;
 }
 
-.link-gold:hover {
+.register-footer a:hover {
   text-decoration: underline;
 }
