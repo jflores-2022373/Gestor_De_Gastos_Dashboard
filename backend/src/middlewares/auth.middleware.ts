@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = process.env.JWT_SECRET || 'tu_clave_secreta_super_segura';
+const SECRET_KEY = 'FinanzasDashboard2026_Key!';
 
 export interface AuthRequest extends Request {
   user?: any;

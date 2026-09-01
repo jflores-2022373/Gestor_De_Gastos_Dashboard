@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/database';
 
+const SECRET_KEY = 'FinanzasDashboard2026_Key!';
+
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password, role } = req.body;
@@ -34,25 +36,22 @@ export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
-    // Buscamos el usuario de forma estricta en la base de datos
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       res.status(401).json({ message: 'Credenciales inválidas' });
       return;
     }
 
-    // Comparamos la contraseña ingresada con la cifrada en la base de datos
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       res.status(401).json({ message: 'Credenciales inválidas' });
       return;
     }
 
-    // Generamos el token de autenticación (expira en 20 minutos)
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role },
-      process.env.JWT_SECRET || 'secreto',
-      { expiresIn: '20m' }
+      SECRET_KEY,
+      { expiresIn: '8h' }
     );
 
     res.status(200).json({
