@@ -10,6 +10,7 @@
 }
 
 .dashboard-container {
+  position: relative;
   display: flex;
   height: 100vh;
   background: linear-gradient(135deg, #070707 0%, #121212 100%);
@@ -51,6 +52,8 @@
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
 }
 
 .nav-links a:hover {
@@ -61,7 +64,8 @@
 
 .nav-links a.active {
   color: #ffd700;
-  border-left: 4px solid #ffd700;
+  border-left: 3px solid #ffd700;
+  border-right: 3px solid #ffd700;
   background: linear-gradient(90deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 215, 0, 0) 100%);
   font-weight: 600;
 }
@@ -94,7 +98,7 @@
   gap: 25px;
 }
 
-/* Tarjetas Superiores de Estadísticas */
+/* Tarjetas Superiores de Estadísticas Mejoradas */
 .stats-cards-container {
   display: flex;
   gap: 20px;
@@ -102,45 +106,63 @@
 
 .stat-card {
   flex: 1;
-  background: rgba(20, 20, 20, 0.8);
+  background: linear-gradient(145deg, rgba(25, 25, 25, 0.9) 0%, rgba(15, 15, 15, 0.95) 100%);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 24px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 28px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Efecto de borde personalizado por tarjeta al pasar el cursor */
+/* Bordes laterales elegantes con destello */
+.income-card { border-left: 5px solid #00C851; }
+.expense-card { border-left: 5px solid #ff4444; }
+.balance-card { border-left: 5px solid #ffd700; }
+
+/* Efecto lumínico sutil en la esquina superior de cada tarjeta */
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 .income-card:hover {
-  transform: translateY(-4px);
-  border-color: #00C851;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 200, 81, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(0, 200, 81, 0.4);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 200, 81, 0.15);
 }
 
 .expense-card:hover {
-  transform: translateY(-4px);
-  border-color: #ff4444;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 68, 68, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(255, 68, 68, 0.4);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 68, 68, 0.15);
 }
 
 .balance-card:hover {
-  transform: translateY(-4px);
-  border-color: #ffd700;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.15);
 }
 
 .card-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .stat-title {
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #888;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
 .income-card .stat-title { color: #00C851; }
@@ -148,9 +170,11 @@
 .balance-card .stat-title { color: #ffd700; }
 
 .stat-value {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
   color: #ffffff;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Sección de Gráficas */
@@ -229,3 +253,72 @@
 
 .dot.green { background-color: #00C851; box-shadow: 0 0 8px rgba(0, 200, 81, 0.4); }
 .dot.red { background-color: #ff4444; box-shadow: 0 0 8px rgba(255, 68, 68, 0.4); }
+
+/* Modal Personalizado */
+.custom-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.custom-modal-content {
+  background-color: #1a1a1a;
+  border: 1px solid #ffd700;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: modalScaleIn 0.3s ease-in-out;
+}
+
+.modal-header h3 {
+  color: #ffd700;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-body p {
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+.modal-ok-btn {
+  background-color: #ffd700;
+  color: #121212;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.modal-ok-btn:hover {
+  background-color: #e6c200;
+  transform: translateY(-1px);
+}
+
+@keyframes modalScaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
