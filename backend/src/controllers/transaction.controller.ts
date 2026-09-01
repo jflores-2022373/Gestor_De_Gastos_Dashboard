@@ -1,17 +1,56 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthRequest } from '../middlewares/auth.middleware';
+import prisma from '../config/database';
 
-// Controlador de transacciones simulado (modo sin base de datos)
-export const getTransactions = async (req: Request, res: Response): Promise<void> => {
-  res.status(200).json([
-    { id: '1', title: 'Ejemplo Ingreso', amount: 1500, type: 'income', category: 'Sueldo' },
-    { id: '2', title: 'Ejemplo Gasto', amount: 50, type: 'expense', category: 'Comida' }
-  ]);
+export const getTransactions = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user.id;
+    const transactions = await prisma.transaction.findMany({
+      where: { userId }
+    });
+    res.status(200).json(transactions);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener transacciones', error });
+  }
 };
 
-export const createTransaction = async (req: Request, res: Response): Promise<void> => {
-  const { title, amount, type, category } = req.body;
-  res.status(201).json({
-    message: 'Transacción creada exitosamente (Simulado)',
-    transaction: { id: Date.now().toString(), title, amount, type, category }
-  });
+export const createTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user.id;
+    const { title, amount, type, category } = req.body;
+
+    const newTransaction = await prisma.transaction.create({
+      data: {
+        title,
+        amount: parseFloat(amount),
+        type,
+        category,
+        userId
+      }
+    });
+
+    res.status(201).json(newTransaction);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al crear la transacción', error });
+  }
+};
+
+export const deleteTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const id = req.params.id as string;
+    
+    await prisma.transaction.delete({
+      where: { id }
+    });
+
+    res.status(200).json({ message: 'Transacción eliminada correctamente' });
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      res.status(404).json({ message: 'La transacción ya no existe en la base de datos' });
+      return;
+    }
+
+    console.error('Error detallado al eliminar:', error);
+    res.status(500).json({ message: 'Error al eliminar la transacción', error });
+  }
 };
