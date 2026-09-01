@@ -37,12 +37,13 @@ Chart.register(
 })
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   transactions: Transaction[] = [];
-
   totalIncome: number = 0;
   totalExpense: number = 0;
   balance: number = 0;
-
-  private expirationTimer: any;
+  
+  // Variable para controlar la visibilidad de tu modal personalizado
+  showExpirationModal: boolean = false;
+  private tokenTimer: any;
 
   public barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -89,10 +90,11 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.loadTransactions();
 
-    this.expirationTimer = setTimeout(() => {
-      window.alert('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-      this.authService.logout(true); 
-    }, 4 * 60 * 60 * 1000);
+    // Temporizador exacto de 2 minutos (120,000 ms) para abrir el modal personalizado
+    this.tokenTimer = setTimeout(() => {
+      this.showExpirationModal = true;
+      this.cdr.detectChanges();
+    }, 120000);
   }
 
   ngAfterViewInit(): void {
@@ -100,7 +102,16 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    if (this.expirationTimer) clearTimeout(this.expirationTimer);
+    if (this.tokenTimer) {
+      clearTimeout(this.tokenTimer);
+    }
+  }
+
+  // Método que se ejecuta al presionar el botón "OK" del modal personalizado
+  onModalOk() {
+    this.showExpirationModal = false;
+    localStorage.clear();
+    this.router.navigate(['/login'], { queryParams: { expired: 'true' } });
   }
 
   loadTransactions() {
@@ -108,7 +119,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       next: (data) => {
         this.transactions = data || [];
         this.calculateTotalsAndRefreshCharts();
-        this.cdr.detectChanges(); // Fuerza a Angular a actualizar la vista de inmediato
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Error al cargar transacciones en el Dashboard', err);

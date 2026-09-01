@@ -2,7 +2,7 @@
   <!-- Sidebar lateral -->
   <aside class="sidebar">
     <div class="nav-brand">
-      <div class="brand-title">Finanzas</div>
+      <div class="brand-title">SpendWise</div>
       <div class="nav-links">
         <a routerLink="/dashboard" routerLinkActive="active" class="active">Dashboard</a>
         <a routerLink="/transactions" routerLinkActive="active">Transacciones</a>
@@ -57,4 +57,19 @@
       </div>
     </div>
   </main>
+
+  <!-- MODAL PERSONALIZADO DE SESIÓN EXPIRADA -->
+  <div *ngIf="showExpirationModal" class="custom-modal-overlay">
+    <div class="custom-modal-content">
+      <div class="modal-header">
+        <h3>Aviso de Seguridad</h3>
+      </div>
+      <div class="modal-body">
+        <p>Tu sesión ha expirado. Por favor, vuelve a iniciar sesión para continuar gestionando tus finanzas.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-ok-btn" (click)="onModalOk()">OK</button>
+      </div>
+    </div>
+  </div>
 </div>
