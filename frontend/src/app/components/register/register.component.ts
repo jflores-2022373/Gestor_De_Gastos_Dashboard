@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent {
   credentials = {
+    name: '',
     email: '',
     password: ''
   };
@@ -27,7 +28,7 @@ export class RegisterComponent {
         this.successMessage = '¡Registro exitoso! Redirigiendo al login...';
         this.errorMessage = '';
         setTimeout(() => {
-          this.router.navigate(['/login']); // Te devuelve al login tras registrarte
+          this.router.navigate(['/login']);
         }, 1500);
       },
       error: (err) => {
