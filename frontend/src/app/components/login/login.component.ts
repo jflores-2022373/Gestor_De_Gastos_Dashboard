@@ -12,20 +12,22 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  // Objeto estructurado que coincide con el binding de su HTML
   credentials = {
     email: '',
     password: ''
   };
+  
   errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  onLogin() {
+  onLogin(): void {
     this.authService.login(this.credentials).subscribe({
       next: (res: any) => {
-        // Guarda el token en el almacenamiento local
+        // Almacena de forma segura el token en el almacenamiento local
         localStorage.setItem('token', res.token);
-        // Redirige al dashboard
+        // Redirige al usuario hacia el panel principal
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {

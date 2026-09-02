@@ -11,27 +11,29 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(credentials: { email: string; password: string }): Observable<any> {
+  login(credentials: { email?: string; username?: string; password: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.apiUrl}/login`, credentials, { headers }).pipe(
       tap(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('role', response.role);
+          const identifier = credentials.email || credentials.username || response.email || response.username || 'usuario_default';
+          localStorage.setItem('userEmail', identifier);
         }
       })
     );
   }
 
-  register(userData: { email: string; password: string }): Observable<any> {
+  register(userData: { email?: string; username?: string; password: string }): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<any>(`${this.apiUrl}/register`, userData, { headers });
   }
 
-  // MODIFICADO: Ahora acepta un parámetro opcional para redirigir con mensaje de expiración
   logout(expired: boolean = false): void {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('userEmail');
     
     if (expired) {
       this.router.navigate(['/login'], { queryParams: { expired: 'true' } });
@@ -40,12 +42,12 @@ export class AuthService {
     }
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getUserEmail(): string {
+    return localStorage.getItem('userEmail') || 'guest';
   }
 
-  getRole(): string | null {
-    return localStorage.getItem('role');
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
   isLoggedIn(): boolean {

@@ -1,144 +1,129 @@
-
-:root {
-  --color-escudo-azul: #1d335a;    
-  --color-escudo-dorado: #cca43b;  
-  --color-escudo-naranja: #f15a24; 
-  
-  --bg-dark: #0f141f;            
-  --bg-card: #182232;        
-  --text-main: #f8fafc;          
-  --text-muted: #94a3b8;        
-}
-
-html, body {
+/* =========================================
+   ESTILOS GLOBALES - SPENDWISE
+   ========================================= */
+body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg-dark);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--text-main);
-}
-
-/* Contenedor general del Login */
-.auth-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: var(--bg-dark);
-  box-sizing: border-box;
-}
-
-/* Tarjeta del login con un toque fino dorado */
-.auth-card {
-  width: 100%;
-  max-width: 420px;
-  background: var(--bg-card);
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  box-sizing: border-box;
-  border: 1px solid rgba(204, 164, 59, 0.3);
-}
-
-.brand-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-/* Logo con el Azul Marino del escudo */
-.brand-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background: var(--color-escudo-azul);
-  color: var(--color-escudo-dorado);
-  font-weight: 700;
-  font-size: 18px;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  border: 1px solid rgba(204, 164, 59, 0.4);
-}
-
-.brand-header h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.brand-header p {
-  margin: 6px 0 0 0;
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-.input-field {
-  margin-bottom: 18px;
-}
-
-.input-field label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.input-field input {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 14px;
-  border: 1px solid #334155;
-  border-radius: 8px;
-  background-color: #0b1019;
-  color: var(--text-main);
-  box-sizing: border-box;
-  transition: all 0.2s;
-}
-
-/* Enfoque con el Dorado del escudo */
-.input-field input:focus {
-  outline: none;
-  border-color: var(--color-escudo-dorado);
-  box-shadow: 0 0 0 3px rgba(204, 164, 59, 0.15);
-}
-
-/* Botón principal con el Naranja exacto de la flama */
-.btn-login, button[type="submit"], .btn-primary {
-  width: 100%;
-  padding: 12px;
-  font-size: 15px;
-  font-weight: 600;
+  background-color: #121212;
   color: #ffffff;
-  background-color: var(--color-escudo-naranja);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 10px;
-  box-shadow: 0 4px 12px rgba(241, 90, 36, 0.3);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.btn-login:hover, button[type="submit"]:hover {
-  background-color: #d44a1b;
+.dashboard-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.error-msg {
-  margin-top: 18px;
-  padding: 12px;
-  font-size: 13px;
-  color: #fca5a5;
-  background-color: rgba(185, 28, 28, 0.2);
-  border: 1px solid rgba(248, 113, 113, 0.4);
-  border-radius: 8px;
+.sidebar {
+  width: 260px;
+  background-color: #0b0b0b;
+  border-right: 1px solid #1f1f1f;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.logo-container h2 {
+  color: #ffd700;
+  font-size: 20px;
+  letter-spacing: 1.5px;
   text-align: center;
+  margin-bottom: 40px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.nav-item {
+  color: #8c8c8c;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
   font-weight: 500;
+  transition: all 0.2s ease;
+  display: block;
+}
+
+.nav-item:hover {
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.03);
+}
+
+.nav-item.active {
+  background: rgba(255, 215, 0, 0.04);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+}
+
+.sidebar-footer {
+  padding-top: 20px;
+}
+
+.logout-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+  color: #000;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
+/* =========================================
+   MEJORAS PROFESIONALES (NUEVAS)
+   ========================================= */
+
+/* Efecto Hover en las filas de la tabla */
+.custom-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.custom-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Contenedor con Scroll Vertical Fijo y Sombra Sutil */
+.table-scroll-container {
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+  /* Sombra interior sutil para indicar scroll profesional */
+  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* Scrollbar personalizado moderno */
+.table-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: #121212;
+  border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #ffd700;
+}
+
+/* Utilidad para capitalizar texto de forma automática en UI */
+.capitalize-text {
+  text-transform: capitalize;
 }
