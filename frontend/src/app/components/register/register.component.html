@@ -1,40 +1,71 @@
-<div class="register-container">
-  <div class="register-card">
-    <div class="register-form-section">
-      <div class="brand-header">
-        <span class="brand-name">Spend<span>Wise</span></span>
+<div class="register-container" style="display: flex; min-height: 100vh; background-color: #08080a; font-family: inherit; color: #ffffff; overflow: hidden;">
+  
+  <!-- Sidebar Izquierdo -->
+  <aside style="width: 260px; background: #121216; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; justify-content: space-between; padding: 30px 20px;">
+    <div>
+      <div style="font-size: 22px; font-weight: 900; letter-spacing: -0.5px; color: #ffffff; margin-bottom: 40px; padding-left: 10px;">
+        Spend<span style="color: #ffb703;">Wise</span>
       </div>
 
-      <div class="register-titles">
-        <h2>Crear Cuenta</h2>
-        <p>Comienza a administrar tus finanzas de manera inteligente.</p>
+      <div style="padding: 0 10px;">
+        <h2 style="font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 8px;">Portal de Registro</h2>
+        <p style="font-size: 13px; color: #888899; line-height: 1.5; margin: 0;">Cree su cuenta para comenzar a administrar sus finanzas de manera inteligente.</p>
+      </div>
+    </div>
+
+    <div style="padding: 0 10px;">
+      <div style="font-size: 11px; color: #555566; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">SpendWise System</div>
+    </div>
+  </aside>
+
+  <!-- Panel Principal de Registro -->
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; overflow-y: auto;">
+    
+    <div style="width: 100%; max-width: 420px; background: #121216; border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+      
+      <div style="margin-bottom: 30px;">
+        <h1 style="font-size: 24px; font-weight: 800; margin: 0 0 8px 0; color: #ffffff;">Crear Cuenta</h1>
+        <p style="color: #888899; font-size: 13px; margin: 0;">Ingrese sus datos para registrarse.</p>
       </div>
 
-      <!-- Mensajes de feedback -->
-      <div *ngIf="errorMessage" style="color: #e74c3c; font-size: 0.85rem; margin-bottom: 10px;">
+      <!-- Alerta de Error -->
+      <div *ngIf="errorMessage" style="margin-bottom: 20px; padding: 12px 16px; background: rgba(230,57,70,0.1); border: 1px solid rgba(230,57,70,0.3); color: #ff6b6b; border-radius: 10px; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+        <span style="width: 6px; height: 6px; background: #ff6b6b; border-radius: 50%;"></span>
         {{ errorMessage }}
       </div>
-      <div *ngIf="successMessage" style="color: #2ecc71; font-size: 0.85rem; margin-bottom: 10px;">
+
+      <!-- Alerta de Éxito -->
+      <div *ngIf="successMessage" style="margin-bottom: 20px; padding: 12px 16px; background: rgba(42,157,143,0.1); border: 1px solid rgba(42,157,143,0.3); color: #2a9d8f; border-radius: 10px; font-size: 12px; display: flex; align-items: center; gap: 8px;">
+        <span style="width: 6px; height: 6px; background: #2a9d8f; border-radius: 50%;"></span>
         {{ successMessage }}
       </div>
 
-      <form class="form-group" (ngSubmit)="onRegister()">
-        <div class="input-wrapper">
-          <label>Correo electrónico</label>
-          <input type="email" [(ngModel)]="credentials.email" name="email" placeholder="nombre@ejemplo.com" required />
-        </div>
+      <!-- Formulario -->
+      <form (ngSubmit)="onRegister()" style="display: flex; flex-direction: column; gap: 20px;">
         
-        <div class="input-wrapper">
-          <label>Contraseña</label>
-          <input type="password" [(ngModel)]="credentials.password" name="password" placeholder="••••••••" required />
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="color: #888899; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Correo Electrónico</label>
+          <input type="email" [(ngModel)]="credentials.email" name="email" placeholder="nombre@ejemplo.com" required style="width: 100%; padding: 13px 16px; background: #1a1a20; border: 1px solid #2a2a35; color: #ffffff; border-radius: 12px; font-size: 13px; outline: none; box-sizing: border-box;" />
         </div>
 
-        <button type="submit" class="btn-register">REGISTRARSE</button>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="color: #888899; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Contraseña</label>
+          <input type="password" [(ngModel)]="credentials.password" name="password" placeholder="••••••••••••" required style="width: 100%; padding: 13px 16px; background: #1a1a20; border: 1px solid #2a2a35; color: #ffffff; border-radius: 12px; font-size: 13px; outline: none; box-sizing: border-box;" />
+        </div>
+
+        <button type="submit" style="margin-top: 10px; width: 100%; background: #ffb703; color: #000000; border: none; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+          Completar Registro
+        </button>
+
       </form>
 
-      <div class="register-footer">
-        <span>¿Ya tienes una cuenta?</span> <a routerLink="/login">Inicia sesión</a>
+      <div style="margin-top: 25px; text-align: center;">
+        <span style="color: #888899; font-size: 13px;">¿Ya dispone de una cuenta? </span>
+        <a routerLink="/login" style="color: #ffb703; font-size: 13px; font-weight: 600; text-decoration: none;">Inicie sesión</a>
       </div>
+
     </div>
-  </div>
+
+  </main>
+
 </div>
