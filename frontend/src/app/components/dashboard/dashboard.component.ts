@@ -1,176 +1,110 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
-import { 
-  Chart, 
-  ChartConfiguration, 
-  BarController, 
-  BarElement, 
-  CategoryScale, 
-  LinearScale, 
-  DoughnutController, 
-  ArcElement, 
-  Tooltip, 
-  Legend 
-} from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 import { TransactionService, Transaction } from '../../services/transaction.service';
-import { AuthService } from '../../services/auth.service';
-
-Chart.register(
-  BarController, 
-  BarElement, 
-  CategoryScale, 
-  LinearScale, 
-  DoughnutController, 
-  ArcElement, 
-  Tooltip, 
-  Legend
-);
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, BaseChartDirective],
+  imports: [CommonModule, RouterLink, RouterLinkActive, BaseChartDirective],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DashboardComponent implements OnInit {
   transactions: Transaction[] = [];
+  
   totalIncome: number = 0;
   totalExpense: number = 0;
-  balance: number = 0;
-  
-  // Variable para controlar la visibilidad de tu modal personalizado
+  netBalance: number = 0;
   showExpirationModal: boolean = false;
-  private tokenTimer: any;
 
-  public barChartOptions: ChartConfiguration['options'] = {
+  doughnutChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false,
-    animation: { duration: 1000 },
-    scales: {
-      x: { ticks: { color: '#ffd700', font: { weight: 500 } }, grid: { color: 'rgba(255, 255, 255, 0.03)' } },
-      y: { ticks: { color: '#ffd700', font: { weight: 500 } }, grid: { color: 'rgba(255, 255, 255, 0.03)' } }
-    },
-    plugins: { legend: { display: false } }
   };
 
-  public barChartData: ChartConfiguration['data'] = {
+  doughnutChartData: ChartConfiguration['data'] = {
     labels: ['Ingresos', 'Gastos'],
-    datasets: [{
-      data: [0, 0],
-      backgroundColor: ['#00C851', '#ff4444'],
-      borderRadius: 6
-    }]
+    datasets: [
+      {
+        data: [0, 0],
+        backgroundColor: ['#ffcc00', '#1c1c24']
+      }
+    ]
   };
 
-  public doughnutChartOptions: ChartConfiguration['options'] = {
+  barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false,
-    plugins: { legend: { display: false } }
   };
 
-  public doughnutChartData: ChartConfiguration['data'] = {
-    labels: ['Ingresos', 'Gastos'],
-    datasets: [{
-      data: [1, 1],
-      backgroundColor: ['#00C851', '#ff4444'],
-      borderWidth: 0
-    }]
+  barChartData: ChartConfiguration['data'] = {
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+    datasets: [
+      {
+        data: [0, 0, 0, 0, 0, 0],
+        label: 'Transacciones',
+        backgroundColor: '#ffcc00'
+      }
+    ]
   };
 
   constructor(
     private transactionService: TransactionService,
-    private authService: AuthService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadTransactions();
-
-    // Temporizador exacto de 2 minutos (120,000 ms) para abrir el modal personalizado
-    this.tokenTimer = setTimeout(() => {
-      this.showExpirationModal = true;
-      this.cdr.detectChanges();
-    }, 120000);
+    this.loadDashboardData();
   }
 
-  ngAfterViewInit(): void {
-    this.loadTransactions();
-  }
-
-  ngOnDestroy(): void {
-    if (this.tokenTimer) {
-      clearTimeout(this.tokenTimer);
-    }
-  }
-
-  // Método que se ejecuta al presionar el botón "OK" del modal personalizado
-  onModalOk() {
-    this.showExpirationModal = false;
-    localStorage.clear();
-    this.router.navigate(['/login'], { queryParams: { expired: 'true' } });
-  }
-
-  loadTransactions() {
+  loadDashboardData(): void {
     this.transactionService.getTransactions().subscribe({
       next: (data) => {
-        this.transactions = data || [];
-        this.calculateTotalsAndRefreshCharts();
-        this.cdr.detectChanges();
+        this.transactions = data;
+        this.calculateMetrics();
+        this.updateCharts();
       },
       error: (err: any) => {
-        console.error('Error al cargar transacciones en el Dashboard', err);
+        console.error('Error al cargar transacciones en el dashboard', err);
       }
     });
   }
 
-  calculateTotalsAndRefreshCharts() {
+  calculateMetrics(): void {
     this.totalIncome = this.transactions
-      .filter(t => {
-        const typeStr = String(t.type || '').toLowerCase();
-        return typeStr === 'income' || typeStr === 'ingreso';
-      })
-      .reduce((acc, t) => {
-        const cleanAmount = Number(String(t.amount || 0).replace(/[^0-9.-]+/g, ''));
-        return acc + Math.abs(isNaN(cleanAmount) ? 0 : cleanAmount);
-      }, 0);
+      .filter(t => t.type === 'Ingreso')
+      .reduce((acc, t) => acc + t.amount, 0);
 
     this.totalExpense = this.transactions
-      .filter(t => {
-        const typeStr = String(t.type || '').toLowerCase();
-        return typeStr === 'expense' || typeStr === 'gasto';
-      })
-      .reduce((acc, t) => {
-        const cleanAmount = Number(String(t.amount || 0).replace(/[^0-9.-]+/g, ''));
-        return acc + Math.abs(isNaN(cleanAmount) ? 0 : cleanAmount);
-      }, 0);
+      .filter(t => t.type === 'Gasto')
+      .reduce((acc, t) => acc + t.amount, 0);
 
-    this.balance = this.totalIncome - this.totalExpense;
+    this.netBalance = this.totalIncome - this.totalExpense;
+  }
 
-    this.barChartData = {
-      ...this.barChartData,
-      datasets: [{
-        ...this.barChartData.datasets[0],
-        data: [this.totalIncome, this.totalExpense]
-      }]
-    };
+  get balance(): number {
+    return this.netBalance;
+  }
 
-    const dIncome = (this.totalIncome === 0 && this.totalExpense === 0) ? 1 : this.totalIncome;
-    const dExpense = (this.totalIncome === 0 && this.totalExpense === 0) ? 1 : this.totalExpense;
-    
+  updateCharts(): void {
     this.doughnutChartData = {
-      ...this.doughnutChartData,
-      datasets: [{
-        ...this.doughnutChartData.datasets[0],
-        data: [dIncome, dExpense]
-      }]
+      labels: ['Ingresos', 'Gastos'],
+      datasets: [
+        {
+          data: [this.totalIncome, this.totalExpense],
+          backgroundColor: ['#ffcc00', '#1c1c24']
+        }
+      ]
     };
   }
 
-  logout() {
-    this.authService.logout(false);
+  onModalOk(): void {
+    this.showExpirationModal = false;
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

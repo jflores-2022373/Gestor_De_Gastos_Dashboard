@@ -3,20 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Transaction {
-  _id?: string;
-  id?: string;
-  title: string;
+  id?: number;
+  type: 'Ingreso' | 'Gasto';
+  description: string;
   amount: number;
-  type: 'income' | 'expense';
   category: string;
-  date?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiUrl = 'http://localhost:3000/api/transactions';
+  private apiUrl = 'http://localhost:8080/api/transactions';
 
   constructor(private http: HttpClient) {}
 
@@ -28,7 +26,11 @@ export class TransactionService {
     return this.http.post<Transaction>(this.apiUrl, transaction);
   }
 
-  deleteTransaction(id: string): Observable<any> {
+  updateTransaction(id: number, transaction: Transaction): Observable<Transaction> {
+    return this.http.put<Transaction>(`${this.apiUrl}/${id}`, transaction);
+  }
+
+  deleteTransaction(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
