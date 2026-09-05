@@ -1,4 +1,3 @@
-# SpendWise Proyecto 
 # SpendWise: Sistema Integral de Gestión Financiera Personal
 
 SpendWise es una solución tecnológica completa y avanzada orientada al registro, estructuración, análisis y control absoluto de las finanzas personales. Diseñado bajo una arquitectura modular y moderna de alto rendimiento, este sistema permite a los usuarios gestionar sus recursos económicos con precisión quirúrgica, asegurando la confidencialidad de los datos mediante protocolos avanzados de autenticación y cifrado.
